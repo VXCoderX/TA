@@ -1,4 +1,6 @@
 local love = require('love')
+require("libs.classLIB.class")
+require("src.player")
 
 _G.game = {
     name = "Tonys Adventure",
@@ -27,12 +29,12 @@ function love.load()
         fullscreen = false,
         vsync = true,
     })
+
 end
 
 function love.update(dt)
     mouse.x, mouse.y = love.mouse.getPosition()
-    
-    love.mouse.isVisible(false)
+    love.mouse.setVisible(false)
 end
 
 function love.draw()
