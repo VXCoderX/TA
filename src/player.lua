@@ -33,3 +33,5 @@ end
 function playerObj:draw()
     love.graphics.rectangle('fill', playerObj.x, playerObj.y, playerObj.width, playerObj.height)
 end
+
+

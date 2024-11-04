@@ -1,0 +1,9 @@
+{
+    "Lua.diagnostics.globals": [
+        "x"
+    ],
+    "Lua.diagnostics.disable": [
+        "deprecated",
+        "missing-parameter"
+    ]
+}
