@@ -11,7 +11,7 @@ function _G.newBullet(_x, _y, targetX, targetY)
         y = _y,
         dx = math.cos(angle) * speed,
         dy = math.sin(angle) * speed,
-        width = 20,
+        width = 35,
         height = 10,
         angle = angle
     }
