@@ -33,7 +33,6 @@ _G.mouse = {
     y = 0
 }
 
-
 function love.load()
     love.window.setTitle(game.name .. " V" .. game.version)
     love.window.setMode(game.width, game.height,
@@ -63,7 +62,6 @@ function love.update(dt)
     end
 
     mouse.x, mouse.y = love.mouse.getPosition()
-
 end
 
 function love.draw()
@@ -71,34 +69,45 @@ function love.draw()
 
     for i, bullet in ipairs(bullets) do
         love.graphics.push()
-
         love.graphics.translate(bullet.x, bullet.y)
-
         love.graphics.rotate(bullet.angle)
-
         love.graphics.setColor(rgb(52, 180, 235))
-        love.graphics.rectangle("fill",0, 0, bullet.width, bullet.height)
-
-        love.graphics.setColor(1,1, 1)
+        love.graphics.rectangle("fill", 0, 0, bullet.width, bullet.height)
+        love.graphics.setColor(1, 1, 1)
         love.graphics.pop()
     end
 
     love.graphics.circle("line", mouse.x, mouse.y, 10)
-
     love.graphics.setFont(game.fonts.big)
     love.graphics.print("FPS: " .. love.timer.getFPS(), 7.5, 7.5)
 end
 
 function spawnBullet()
-    table.insert(bullets, 1, newBullet(playerObj.x + playerObj.width / 2, playerObj.y + playerObj.height / 2, love.mouse.getX(), love.mouse.getY()))
+    local bulletDistance = 50 -- Distance from the player where the bullet spawns
+    local playerCenterX = playerObj.x + playerObj.width / 2
+    local playerCenterY = playerObj.y + playerObj.height / 2
+    local mouseX, mouseY = love.mouse.getX(), love.mouse.getY()
+
+    -- Calculate direction vector from player to mouse
+    local directionX = mouseX - playerCenterX
+    local directionY = mouseY - playerCenterY
+
+    -- Normalize the direction vector
+    local length = math.sqrt(directionX * directionX + directionY * directionY)
+    local normalizedX = directionX / length
+    local normalizedY = directionY / length
+
+    -- Calculate bullet spawn position
+    local bulletX = playerCenterX + normalizedX * bulletDistance
+    local bulletY = playerCenterY + normalizedY * bulletDistance
+
+    table.insert(bullets, 1, newBullet(bulletX, bulletY, mouseX, mouseY))
 end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
         spawnBullet()
-
         love.mouse.setGrabbed(true)
-
     end
 end
 
