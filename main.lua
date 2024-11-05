@@ -1,6 +1,7 @@
 local love = require('love')
 require("libs.class")
 require("src.player")
+require("src.utils.utils")
 Bullet = require("src.bullet")
 
 _G.player = playerObj()
@@ -27,6 +28,11 @@ _G.game = {
     }
 }
 
+_G.mouse = {
+    x = 0,
+    y = 0
+}
+
 
 function love.load()
     love.window.setTitle(game.name .. " V" .. game.version)
@@ -38,6 +44,13 @@ function love.load()
 
     player:init()
 
+    function love.keypressed(key)
+        if key == "escape" then
+            print("IT WEORKD")
+            love.mouse.setGrabbed(false)
+        end
+    end
+    love.mouse.setGrabbed(true)
 end
 
 function love.update(dt)
@@ -49,9 +62,7 @@ function love.update(dt)
         bullet:update(dt)
     end
 
-    if love.mouse.isDown('1') then
-
-    end
+    mouse.x, mouse.y = love.mouse.getPosition()
 
 end
 
@@ -65,42 +76,35 @@ function love.draw()
 
         love.graphics.rotate(bullet.angle)
 
-        love.graphics.rectangle("fill",-bullet.width/2,-bullet.height/2, bullet.width, bullet.height)
+        love.graphics.setColor(rgb(52, 180, 235))
+        love.graphics.rectangle("fill",0, 0, bullet.width, bullet.height)
 
+        love.graphics.setColor(1,1, 1)
         love.graphics.pop()
     end
+
+    love.graphics.circle("line", mouse.x, mouse.y, 10)
 
     love.graphics.setFont(game.fonts.big)
     love.graphics.print("FPS: " .. love.timer.getFPS(), 7.5, 7.5)
 end
 
 function spawnBullet()
-    table.insert(bullets, 1, newBullet(playerObj.x, playerObj.y, love.mouse.getX(), love.mouse.getY()))
+    table.insert(bullets, 1, newBullet(playerObj.x + playerObj.width / 2, playerObj.y + playerObj.height / 2, love.mouse.getX(), love.mouse.getY()))
 end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
         spawnBullet()
+
+        love.mouse.setGrabbed(true)
+
     end
 end
 
---[[
-# SUMMARY (IN PLAIN-ENGLISH)
-
-Congratulations, you’ve got something with the best licence ever.
-
-Basically, you’re free to do what you want with it; as long as you do something good (help someone out, smile; just be nice), you can use this on anything you fancy.
-
-Of course, if it all breaks, it’s totally not the author’s fault.
-Enjoy!
-
-
-# THE FULL LICENSE AGREEMENT
-
-By attaching this document to the given files (the “work”), you, the licensee, are hereby granted free usage in both personal and commerical environments, without any obligation of attribution or payment (monetary or otherwise). The licensee is free to use, copy, modify, publish, distribute, sublicence, and/or merchandise the work, subject to the licensee inflecting a positive message unto someone. This includes (but is not limited to): smiling, being nice, saying “thank you”, assisting other persons, or any similar actions percolating the given concept.
-
-The above copyright notice serves as a permissions notice also, and may optionally be included in copies or portions of the work.
-
-The work is provided “as is”, without warranty or support, express or implied. The author(s) are not liable for any damages, misuse, or other claim, whether from or as a consequence of usage of the given work.
-
-]]--
+function love.keypressed(key)
+    if key == "escape" then
+        print("IT WEORKD")
+        love.mouse.setGrabbed(false)
+    end
+end

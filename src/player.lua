@@ -6,8 +6,8 @@ function playerObj:init()
     playerObj:set {
         x = 300,
         y = 300,
-        width = 25,
-        height = 25,
+        width = 50,
+        height = 50,
         speed = 350
     }
 end
