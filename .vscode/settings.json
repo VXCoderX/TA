@@ -4,7 +4,8 @@
     ],
     "Lua.diagnostics.disable": [
         "deprecated",
-        "missing-parameter"
+        "missing-parameter",
+        "undefined-global"
     ],
     "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }
